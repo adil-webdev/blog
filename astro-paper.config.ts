@@ -1,0 +1,44 @@
+import { defineAstroPaperConfig } from "./src/types/config";
+
+export default defineAstroPaperConfig({
+  site: {
+    url: "https://adil-webdev.github.io/blog/",
+    title: "adil.dev",
+    description: "Sharing what I learn about Ruby on Rails, DevOps, Linux, databases, networking, and system design.",
+    author: "Adil Farooq",
+    profile: undefined,
+    ogImage: "default-og.jpg",
+    lang: "en",
+    timezone: "Asia/Karachi",
+    dir: "ltr",
+  },
+  posts: {
+    perPage: 4,
+    perIndex: 4,
+    scheduledPostMargin: 15 * 60 * 1000,
+  },
+  features: {
+    lightAndDarkMode: true,
+    dynamicOgImage: false,
+    showArchives: false,
+    showBackButton: true,
+    editPost: {
+      enabled: false,
+    },
+    search: "pagefind",
+  },
+  socials: [
+    { name: "github",   url: "https://github.com/adil-webdev" },
+   // { name: "x",        url: "https://x.com/username" },
+    { name: "linkedin", url: "https://www.linkedin.com/in/adil-farooq-643430268/" },
+    { name: "mail",     url: "mailto:ch.haris.frq@gmail.com" },
+  ],
+  shareLinks: [
+    { name: "whatsapp", url: "https://wa.me/?text=" },
+    { name: "facebook", url: "https://www.facebook.com/sharer.php?u=" },
+    { name: "x",        url: "https://x.com/intent/post?url=" },
+    { name: "telegram", url: "https://t.me/share/url?url=" },
+    { name: "pinterest", url: "https://pinterest.com/pin/create/button/?url=" },
+    { name: "mail",     url: "mailto:?subject=See%20this%20post&body=" },
+  ],
+});
