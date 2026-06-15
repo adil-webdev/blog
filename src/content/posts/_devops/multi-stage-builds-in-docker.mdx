@@ -1,0 +1,88 @@
+---
+author: Adil Farooq
+pubDatetime: 2026-06-15T11:14:30.047Z
+title: Multi stage builds in Docker Easily Explained
+slug: multi-stage-builds-in-docker
+featured: true
+draft: false
+ogImage: ../../../assets/images/multi-stage-in-docker.png
+tags:
+  - devops
+description: learn why multi stage builds are important in docker and how to use them in your projects
+---
+
+Have you ever wondered how to reduce the size of your Docker images? 
+Multi-stage builds in Docker are a powerful feature that allows you to create smaller, 
+more efficient images by separating the build environment from the runtime environment.
+In this article, we will explore what multi-stage builds are, why they are important, 
+and how to implement them in your Docker projects.
+Before we dive into multi-stage builds, let's first understand the problem with single-stage builds.
+
+## What was the problem with single stage builds?
+In a single-stage build, you typically use a single `FROM` statement in your Dockerfile to define the base image for your application.
+This means that all the build tools and dependencies are included in the final image, even if they are not needed at runtime. 
+
+This can lead to larger image sizes, which can slow down deployment times and increase storage costs.
+The solution to this problem is to use multi-stage builds
+
+## What are Multi-Stage Builds?
+Before i will tell you about single stage builds, let me tell you what is build stage and runtime stage in docker.
+Although, you can have many stages in a multi-stage build, but for simplicity, we will focus on two main stages:
+
+- **Build stage**: The build stage is where you compile your application and its dependencies.
+- **Runtime stage**: The runtime stage is where you run your application in a production environment.
+
+In runtime stage, you don't need all the build tools and dependencies that were used in the build stage.
+
+So, Multi-stage builds are a feature in Docker, that allows you to use multiple `FROM` statements in a single Dockerfile.
+Each `FROM` statement starts a new stage of the build process, allowing you to copy artifacts from one stage to another.
+This means you can use a larger image with all the necessary build tools to compile your application,
+and then copy only the necessary artifacts to a smaller, final image that will be used in production.
+
+## Benefits of Multi-Stage Builds
+1. **Smaller Image Sizes**: By separating the build and runtime stages, you can significantly reduce the size of your final image, which can lead to faster deployment times and lower storage costs.
+2. **Improved Security**: By only including the necessary artifacts in the final image, you can reduce the attack surface of your application and improve security.
+3. **Use Caching**: Multi-stage builds allow you to take advantage of Docker's caching mechanism, which can speed up the build process by reusing previously built layers.
+
+## Example of Multi-Stage Builds
+Let's say you have a Node.js application that you want to build and run in a Docker container. 
+Here's an example of how you can use multi-stage builds to create a smaller, more efficient image:
+
+```dockerfile file=Dockerfile
+
+# Build stage
+
+FROM node:26-alpine as build
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm ci
+
+# Runtime stage
+
+FROM gcr.io/distroless/nodejs22
+
+WORKDIR /app
+
+# Copy only the node_modules from the build stage
+COPY --from=build /app/node_modules/ node_modules 
+
+COPY index.js index.js
+
+ENV PORT=3000
+
+CMD ["index.js"]
+```
+
+In this example, we have two stages in our Dockerfile.
+The first stage, named `build`, uses the `node:26-alpine` image to compile our Node.js application and its dependencies.
+The second stage uses the `gcr.io/distroless/nodejs22` image, which is a smaller image that only includes the 
+necessary runtime environment for our application.
+We then copy only the `node_modules` directory from the build stage to the runtime stage, which significantly reduces the size of
+our final image.
+
+I hope this article has helped you understand the benefits of multi-stage builds in Docker and how to implement them in your projects.
+
+
