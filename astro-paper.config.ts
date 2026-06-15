@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://adill.is-a.dev"
+    url: "https://adill.is-a.dev",
     title: "adil.dev",
     description: "Sharing what I learn about Ruby on Rails, DevOps, Linux, databases, networking, and system design.",
     author: "Adil Farooq",
